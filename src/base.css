@@ -1,0 +1,40 @@
+/*
+ * neobrutalism-css — base
+ *
+ * Minimal, opt-in defaults. The pack does NOT ship a global reset that would
+ * fight your app — these rules only set the font/weight baseline and a couple
+ * of ergonomic defaults. Scope everything by adding class="nb" to a wrapper
+ * if you want to contain the look; otherwise the component classes stand alone.
+ */
+
+.nb,
+.nb-root {
+    font-family: var(--nb-font);
+    color: var(--nb-ink);
+}
+
+/* Headings inside an .nb scope lean bold by default — the neobrutalist voice. */
+.nb :where(h1, h2, h3, h4, h5, h6),
+.nb-root :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: var(--nb-font-weight-strong);
+    line-height: 1.1;
+}
+
+/* All interactive pack components share a consistent focus ring. */
+.nb-card,
+.nb-btn,
+.nb-chip,
+.nb-input,
+.nb-checkbox__box,
+.nb-dropdown__trigger {
+    outline: none;
+}
+
+.nb-btn:focus-visible,
+.nb-chip:focus-visible,
+.nb-input:focus-visible,
+.nb-dropdown__trigger:focus-visible,
+.nb-checkbox__input:focus-visible + .nb-checkbox__box {
+    outline: var(--nb-border-width-sm) solid var(--nb-accent);
+    outline-offset: 2px;
+}

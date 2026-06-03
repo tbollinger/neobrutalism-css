@@ -1,0 +1,90 @@
+/*
+ * neobrutalism-css — modal
+ *
+ *   <button data-nb-open="#my-modal" class="nb-btn">Open</button>
+ *
+ *   <div class="nb-modal" id="my-modal" hidden>
+ *     <div class="nb-modal__panel">
+ *       <button class="nb-modal__close" data-nb-close aria-label="Close">×</button>
+ *       <h2>Heading</h2>
+ *       <p>Body…</p>
+ *     </div>
+ *   </div>
+ *
+ * The optional JS helper (neobrutalism.js) toggles [hidden] / .is-open, closes
+ * on Esc and on backdrop click. Without the helper you can drive it yourself:
+ * remove [hidden] and add .is-open to show it.
+ */
+
+.nb-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    /* Hidden by default; the [hidden] attribute also covers no-JS/no-CSS. */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.nb-modal[hidden] {
+    display: flex; /* keep flex layout; visibility handles show/hide for animation */
+}
+
+.nb-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nb-modal__panel {
+    width: 100%;
+    max-width: 32rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 1.75rem;
+    background: var(--nb-surface);
+    border: var(--nb-border-width) solid var(--nb-border-color);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-size) var(--nb-shadow-size) 0
+        var(--nb-shadow-color);
+    /* Subtle pop-in. */
+    transform: translateY(8px) scale(0.98);
+    transition: transform 0.2s ease;
+}
+
+.nb-modal.is-open .nb-modal__panel {
+    transform: translateY(0) scale(1);
+}
+
+.nb-modal__close {
+    float: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin: -0.5rem -0.5rem 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: var(--nb-font-weight-strong);
+    line-height: 1;
+    cursor: pointer;
+    color: var(--nb-ink);
+    background: var(--nb-surface);
+    border: var(--nb-border-width-sm) solid var(--nb-border-color);
+    border-radius: var(--nb-radius-sm);
+    transition: var(--nb-transition);
+}
+
+.nb-modal__close:hover {
+    background: var(--nb-danger);
+    color: #ffffff;
+}
+
+/* Lock background scroll while a modal is open (helper adds this to <html>). */
+.nb-modal-open {
+    overflow: hidden;
+}

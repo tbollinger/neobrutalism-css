@@ -1,0 +1,59 @@
+/*
+ * neobrutalism-css — cards
+ *
+ * The signature move: a hard offset shadow that the card "presses into" on
+ * hover and flattens on active, as if you physically pushed the button down.
+ *
+ *   <div class="nb-card">…</div>           default (medium shadow)
+ *   <div class="nb-card nb-card--lg">…</div> large surface / hero card
+ *   <div class="nb-card nb-card--static">…</div> no press interaction
+ */
+
+.nb-card {
+    background: var(--nb-surface);
+    border: var(--nb-border-width) solid var(--nb-border-color);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-size-md) var(--nb-shadow-size-md) 0
+        var(--nb-shadow-color);
+    transition: var(--nb-transition);
+    padding: 1.25rem;
+    cursor: pointer; /* interactive surface; --static overrides to default */
+}
+
+/* Press effect: shift toward the shadow on hover, flatten on click. The
+   translate distance equals the shadow size so the surface and its shadow
+   meet the page at the end of the press. */
+.nb-card:not(.nb-card--static):hover {
+    transform: translate(2px, 2px);
+    box-shadow: calc(var(--nb-shadow-size-md) - 2px)
+        calc(var(--nb-shadow-size-md) - 2px) 0 var(--nb-shadow-color);
+}
+
+.nb-card:not(.nb-card--static):active {
+    transform: translate(var(--nb-shadow-size-md), var(--nb-shadow-size-md));
+    box-shadow: none;
+}
+
+/* Large variant — bigger shadow + bigger press throw. */
+.nb-card--lg {
+    box-shadow: var(--nb-shadow-size) var(--nb-shadow-size) 0
+        var(--nb-shadow-color);
+    padding: 2rem;
+}
+
+.nb-card--lg:not(.nb-card--static):hover {
+    transform: translate(2px, 2px);
+    box-shadow: calc(var(--nb-shadow-size) - 2px)
+        calc(var(--nb-shadow-size) - 2px) 0 var(--nb-shadow-color);
+}
+
+.nb-card--lg:not(.nb-card--static):active {
+    transform: translate(var(--nb-shadow-size), var(--nb-shadow-size));
+    box-shadow: none;
+}
+
+/* Static variant — keeps the border + shadow look, no interaction. Use for
+   content cards that aren't clickable. */
+.nb-card--static {
+    cursor: default;
+}

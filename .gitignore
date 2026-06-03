@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.DS_Store
+
+# NOTE: dist/ is intentionally NOT ignored — it is committed so the package
+# installs cleanly from GitHub (npm does not run the build on a git install)
+# and so jsDelivr can serve the files directly from the repo.

@@ -1,0 +1,80 @@
+/*
+ * neobrutalism-css — dropdown
+ *
+ *   <div class="nb-dropdown">
+ *     <button class="nb-btn nb-dropdown__trigger" data-nb-toggle>Menu ▾</button>
+ *     <div class="nb-dropdown__panel">
+ *       <a class="nb-dropdown__item" href="#">Profile</a>
+ *       <a class="nb-dropdown__item" href="#">Settings</a>
+ *       <hr class="nb-dropdown__divider" />
+ *       <a class="nb-dropdown__item" href="#">Sign out</a>
+ *     </div>
+ *   </div>
+ *
+ * The JS helper toggles .is-open on the .nb-dropdown when [data-nb-toggle] is
+ * clicked, and closes it on outside-click / Esc. Without the helper, toggle
+ * .is-open yourself.
+ */
+
+.nb-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.nb-dropdown__panel {
+    position: absolute;
+    top: calc(100% + var(--nb-shadow-size-sm) + 4px);
+    left: 0;
+    z-index: 500;
+    min-width: 12rem;
+    padding: 0.375rem;
+    background: var(--nb-surface);
+    border: var(--nb-border-width) solid var(--nb-border-color);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-size-md) var(--nb-shadow-size-md) 0
+        var(--nb-shadow-color);
+    /* Hidden until opened. */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: var(--nb-transition);
+}
+
+.nb-dropdown.is-open .nb-dropdown__panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Right-aligned menus. */
+.nb-dropdown--end .nb-dropdown__panel {
+    left: auto;
+    right: 0;
+}
+
+.nb-dropdown__item {
+    display: block;
+    padding: 0.5rem 0.625rem;
+    font-family: var(--nb-font);
+    font-weight: var(--nb-font-weight);
+    font-size: 0.9rem;
+    color: var(--nb-ink);
+    text-decoration: none;
+    border-radius: var(--nb-radius-sm);
+    cursor: pointer;
+    transition: var(--nb-transition);
+}
+
+.nb-dropdown__item:hover,
+.nb-dropdown__item:focus-visible {
+    background: var(--nb-ink);
+    color: var(--nb-surface);
+    outline: none;
+}
+
+.nb-dropdown__divider {
+    height: var(--nb-border-width-sm);
+    margin: 0.375rem 0;
+    border: 0;
+    background: var(--nb-border-color);
+}

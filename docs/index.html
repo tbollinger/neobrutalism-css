@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>neobrutalism-css — thick borders, hard shadows, press me</title>
+    <meta
+        name="description"
+        content="A softened-neobrutalism CSS pack: thick black borders, hard offset shadows, bold type, and a satisfying press effect. Framework-agnostic, retheme via custom properties."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- The pack itself, copied from dist/ by build.js. -->
+    <link rel="stylesheet" href="assets/neobrutalism.min.css" />
+
+    <style>
+        /* ---- Page chrome (showcase-only; NOT part of the pack) ---- */
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fef9c3;
+            color: var(--nb-ink);
+            font-family: var(--nb-font);
+            line-height: 1.55;
+        }
+
+        .wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.5rem; }
+
+        a { color: inherit; }
+
+        code, pre, .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+        /* ---- Hero ---- */
+        .hero { padding: 4rem 0 2.5rem; }
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 4.25rem);
+            line-height: 1.02;
+            margin: 0 0 0.75rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .hero .tag {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--nb-radius-sm);
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.25rem;
+        }
+        .hero p.lede { font-size: 1.15rem; font-weight: 600; max-width: 40rem; margin: 0 0 1.75rem; }
+        .hero .cta { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; }
+
+        .diagram {
+            margin: 2.25rem 0 0;
+            padding: 1.25rem 1.5rem;
+            background: var(--nb-surface);
+            border: var(--nb-border-width) solid var(--nb-border-color);
+            border-radius: var(--nb-radius);
+            box-shadow: var(--nb-shadow-size) var(--nb-shadow-size) 0 var(--nb-shadow-color);
+            overflow-x: auto;
+        }
+        .diagram pre { margin: 0; font-size: 0.82rem; line-height: 1.4; white-space: pre; }
+
+        /* ---- Section headers ---- */
+        section.block { margin: 3.5rem 0; scroll-margin-top: 1.5rem; }
+        .block > h2 {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            margin: 0 0 1rem;
+            border-radius: var(--nb-radius-sm);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .block > p.note { margin: 0 0 1.5rem; font-weight: 600; color: #3f3f46; max-width: 44rem; }
+
+        /* ---- Example block: live preview over code ---- */
+        .ex {
+            border: var(--nb-border-width) solid var(--nb-border-color);
+            border-radius: var(--nb-radius);
+            box-shadow: var(--nb-shadow-size-md) var(--nb-shadow-size-md) 0 var(--nb-shadow-color);
+            overflow: hidden;
+            margin-bottom: 1.75rem;
+            background: var(--nb-surface);
+        }
+        .ex__preview {
+            padding: 1.75rem;
+            background: var(--nb-surface);
+        }
+        .ex__preview .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .ex__preview .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+            gap: 1.25rem;
+        }
+        .ex__code {
+            position: relative;
+            background: #18181b;
+            border-top: var(--nb-border-width) solid var(--nb-border-color);
+        }
+        .ex__code pre {
+            margin: 0;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            color: #f4f4f5;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            tab-size: 2;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            font-family: var(--nb-font);
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #18181b;
+            background: var(--nb-warning);
+            border: 2px solid #000;
+            border-radius: var(--nb-radius-sm);
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 #000;
+            transition: var(--nb-transition);
+        }
+        .copy-btn:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #000; }
+        .copy-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+        .copy-btn.is-copied { background: var(--nb-success); color: #fff; }
+
+        /* ---- Token reference table ---- */
+        .token-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--nb-surface);
+            border: var(--nb-border-width) solid var(--nb-border-color);
+            border-radius: var(--nb-radius);
+            box-shadow: var(--nb-shadow-size-md) var(--nb-shadow-size-md) 0 var(--nb-shadow-color);
+            overflow: hidden;
+        }
+        .token-table th, .token-table td {
+            text-align: left;
+            padding: 0.65rem 0.9rem;
+            border-bottom: 2px solid #000;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+        .token-table th { background: #000; color: #fff; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        .token-table tr:last-child td { border-bottom: 0; }
+        .token-table td.mono { font-weight: 700; white-space: nowrap; }
+        .swatch {
+            display: inline-block;
+            width: 1rem; height: 1rem;
+            border: 2px solid #000;
+            border-radius: 3px;
+            vertical-align: -2px;
+            margin-right: 0.4rem;
+        }
+
+        /* ---- Footer ---- */
+        footer.site {
+            margin-top: 4rem;
+            padding: 2.5rem 0 3.5rem;
+            border-top: var(--nb-border-width) solid var(--nb-border-color);
+            font-weight: 600;
+        }
+        footer.site .row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <!-- ============ HERO ============ -->
+        <header class="hero">
+            <span class="tag">neobrutalism-css · v1.0.0</span>
+            <h1>Thick borders.<br />Hard shadows.<br />Press me.</h1>
+            <p class="lede">
+                A softened-neobrutalism CSS pack — bold type, hard offset shadows, a
+                satisfying press effect on every interactive surface. Framework-agnostic,
+                no build step to consume, and the whole look reskins from a handful of
+                custom properties.
+            </p>
+            <div class="cta">
+                <a class="nb-btn nb-btn--primary" href="#install">Install</a>
+                <a class="nb-btn" href="https://github.com/tbollinger/neobrutalism-css">View on GitHub</a>
+                <a class="nb-btn nb-btn--secondary" href="#components">Components</a>
+            </div>
+
+            <div class="diagram">
+<pre>┌─────────────┐
+│  Press me   │──┐   border: 4px solid #000
+└─────────────┘  │   box-shadow: 8px 8px 0 #000
+   └─────────────┘   :hover → shifts in · :active → flattens</pre>
+            </div>
+        </header>
+
+        <!-- ============ INSTALL ============ -->
+        <section class="block" id="install">
+            <h2>Install</h2>
+            <p class="note">Pick one. The CSS works on its own; the JS helper is optional (it auto-wires modals &amp; dropdowns).</p>
+
+            <div class="ex">
+                <div class="ex__preview">
+                    <strong>CDN</strong> — jsDelivr serves the repo directly. Drop these in your <code>&lt;head&gt;</code> / before <code>&lt;/body&gt;</code>.
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/tbollinger/neobrutalism-css@v1.0.0/dist/neobrutalism.min.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/tbollinger/neobrutalism-css@v1.0.0/dist/neobrutalism.min.js"&gt;&lt;/script&gt;</pre>
+                </div>
+            </div>
+
+            <div class="ex">
+                <div class="ex__preview">
+                    <strong>npm</strong> — install straight from GitHub (no registry publish needed), then import.
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>npm install github:tbollinger/neobrutalism-css#v1.0.0
+
+// then, in your entry file:
+import 'neobrutalism-css/css';   // styles
+import 'neobrutalism-css/js';    // optional behavior helper</pre>
+                </div>
+            </div>
+
+            <div class="ex">
+                <div class="ex__preview">
+                    <strong>Or just copy the files</strong> — grab <code>dist/neobrutalism.css</code> (+ <code>.js</code>) and link them yourself. Zero dependencies, zero build.
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;link rel="stylesheet" href="neobrutalism.css"&gt;
+&lt;script src="neobrutalism.js"&gt;&lt;/script&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ COMPONENTS ============ -->
+        <section class="block" id="components">
+            <h2>Buttons</h2>
+            <p class="note">Works on <code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, and submit inputs. Variants for intent, <code>--sm</code> for size, <code>--block</code> for full-width.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <div class="row">
+                        <button class="nb-btn">Default</button>
+                        <button class="nb-btn nb-btn--primary">Primary</button>
+                        <button class="nb-btn nb-btn--secondary">Secondary</button>
+                        <button class="nb-btn nb-btn--danger">Danger</button>
+                        <button class="nb-btn nb-btn--sm">Small</button>
+                        <button class="nb-btn" disabled>Disabled</button>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;button class="nb-btn"&gt;Default&lt;/button&gt;
+&lt;button class="nb-btn nb-btn--primary"&gt;Primary&lt;/button&gt;
+&lt;button class="nb-btn nb-btn--secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="nb-btn nb-btn--danger"&gt;Danger&lt;/button&gt;
+&lt;button class="nb-btn nb-btn--sm"&gt;Small&lt;/button&gt;
+&lt;button class="nb-btn" disabled&gt;Disabled&lt;/button&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="cards">
+            <h2>Cards</h2>
+            <p class="note">Surfaces with the press effect. <code>--lg</code> throws a bigger shadow; <code>--static</code> drops interaction for plain content blocks.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <div class="grid">
+                        <div class="nb-card nb-card--static">
+                            <h3 style="margin-top:0">Static card</h3>
+                            <p style="margin-bottom:0">Same look, no interaction.</p>
+                        </div>
+                        <div class="nb-card">
+                            <h3 style="margin-top:0">Default card</h3>
+                            <p style="margin-bottom:0">Medium shadow. Hover to press it in, click to flatten.</p>
+                        </div>
+                        <div class="nb-card nb-card--lg">
+                            <h3 style="margin-top:0">Large card</h3>
+                            <p style="margin-bottom:0">Bigger shadow, bigger throw.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;div class="nb-card"&gt;…&lt;/div&gt;
+&lt;div class="nb-card nb-card--lg"&gt;…&lt;/div&gt;
+&lt;div class="nb-card nb-card--static"&gt;…&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="chips">
+            <h2>Chips &amp; pills</h2>
+            <p class="note">Tags and badges. Set <code>--nb-pill-color</code> inline to fill; add <code>.nb-pill</code> for fully-rounded; <code>--interactive</code> for clickable.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <div class="row">
+                        <span class="nb-chip">New</span>
+                        <span class="nb-chip" style="--nb-pill-color: var(--nb-success)">Active</span>
+                        <span class="nb-chip" style="--nb-pill-color: var(--nb-info)">Featured</span>
+                        <span class="nb-chip nb-pill">Rounded pill</span>
+                        <a href="#chips" class="nb-chip nb-chip--interactive">Clickable →</a>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;span class="nb-chip"&gt;New&lt;/span&gt;
+&lt;span class="nb-chip" style="--nb-pill-color: var(--nb-success)"&gt;Active&lt;/span&gt;
+&lt;span class="nb-chip nb-pill"&gt;Rounded pill&lt;/span&gt;
+&lt;a href="#" class="nb-chip nb-chip--interactive"&gt;Clickable →&lt;/a&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="forms">
+            <h2>Forms</h2>
+            <p class="note"><code>.nb-input</code> covers <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code>. Pair with <code>.nb-label</code> and <code>.nb-error</code>; <code>.nb-checkbox</code> is a custom toggle.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <div style="max-width: 26rem;">
+                        <label class="nb-label" for="email">Email</label>
+                        <input class="nb-input" id="email" type="email" placeholder="you@example.com" />
+                        <p class="nb-error">That email is already taken.</p>
+
+                        <label class="nb-label" for="bio" style="margin-top:1rem">Bio</label>
+                        <textarea class="nb-input" id="bio" placeholder="A few words…"></textarea>
+
+                        <label class="nb-checkbox" style="margin-top:1rem">
+                            <input class="nb-checkbox__input" type="checkbox" checked />
+                            <span class="nb-checkbox__box"></span>
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;label class="nb-label" for="email"&gt;Email&lt;/label&gt;
+&lt;input class="nb-input" id="email" type="email" placeholder="you@example.com"&gt;
+&lt;p class="nb-error"&gt;That email is already taken.&lt;/p&gt;
+
+&lt;textarea class="nb-input" placeholder="A few words…"&gt;&lt;/textarea&gt;
+
+&lt;label class="nb-checkbox"&gt;
+  &lt;input class="nb-checkbox__input" type="checkbox" checked&gt;
+  &lt;span class="nb-checkbox__box"&gt;&lt;/span&gt;
+  &lt;span&gt;Remember me&lt;/span&gt;
+&lt;/label&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="dropdown">
+            <h2>Dropdown</h2>
+            <p class="note">Menu wired by the JS helper: <code>data-nb-toggle</code> opens it, outside-click or <kbd>Esc</kbd> closes it.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <div class="nb-dropdown">
+                        <button class="nb-btn nb-dropdown__trigger" data-nb-toggle>Menu ▾</button>
+                        <div class="nb-dropdown__panel">
+                            <a class="nb-dropdown__item" href="#dropdown">Profile</a>
+                            <a class="nb-dropdown__item" href="#dropdown">Settings</a>
+                            <hr class="nb-dropdown__divider" />
+                            <a class="nb-dropdown__item" href="#dropdown">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;div class="nb-dropdown"&gt;
+  &lt;button class="nb-btn nb-dropdown__trigger" data-nb-toggle&gt;Menu ▾&lt;/button&gt;
+  &lt;div class="nb-dropdown__panel"&gt;
+    &lt;a class="nb-dropdown__item" href="#"&gt;Profile&lt;/a&gt;
+    &lt;a class="nb-dropdown__item" href="#"&gt;Settings&lt;/a&gt;
+    &lt;hr class="nb-dropdown__divider"&gt;
+    &lt;a class="nb-dropdown__item" href="#"&gt;Sign out&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="block" id="modal">
+            <h2>Modal</h2>
+            <p class="note">Dialog wired by the JS helper: <code>data-nb-open="#id"</code> opens, <code>data-nb-close</code> / backdrop click / <kbd>Esc</kbd> closes.</p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <button class="nb-btn nb-btn--primary" data-nb-open="#demo-modal">Open modal</button>
+                    <div class="nb-modal" id="demo-modal" hidden>
+                        <div class="nb-modal__panel">
+                            <button class="nb-modal__close" data-nb-close aria-label="Close">×</button>
+                            <h2 style="margin-top:0">Hello there</h2>
+                            <p>Close with the ×, the Esc key, or by clicking the backdrop.</p>
+                            <button class="nb-btn" data-nb-close>Got it</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>&lt;button class="nb-btn nb-btn--primary" data-nb-open="#demo-modal"&gt;Open modal&lt;/button&gt;
+
+&lt;div class="nb-modal" id="demo-modal" hidden&gt;
+  &lt;div class="nb-modal__panel"&gt;
+    &lt;button class="nb-modal__close" data-nb-close aria-label="Close"&gt;×&lt;/button&gt;
+    &lt;h2&gt;Hello there&lt;/h2&gt;
+    &lt;p&gt;Close with the ×, Esc, or the backdrop.&lt;/p&gt;
+    &lt;button class="nb-btn" data-nb-close&gt;Got it&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ JS HELPER ============ -->
+        <section class="block" id="js">
+            <h2>JS helper</h2>
+            <p class="note">
+                Include <code>neobrutalism.js</code> and it auto-wires on <code>DOMContentLoaded</code> —
+                no config. The CSS works fully without it; the helper only adds modal &amp; dropdown behavior.
+            </p>
+            <div class="ex">
+                <div class="ex__preview">
+                    <ul style="margin:0; padding-left:1.25rem; font-weight:600;">
+                        <li><strong>Modals</strong> — <code>[data-nb-open="#id"]</code> opens; <code>[data-nb-close]</code>, backdrop click, or <kbd>Esc</kbd> closes.</li>
+                        <li><strong>Dropdowns</strong> — <code>[data-nb-toggle]</code> toggles; outside-click or <kbd>Esc</kbd> closes.</li>
+                        <li><strong>Inject markup later?</strong> Call <code>Neobrutalism.init()</code> again — it's idempotent.</li>
+                    </ul>
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>// auto-wires itself on load — usually nothing to do.
+
+// after injecting new markup (idempotent):
+Neobrutalism.init();
+
+// drive things manually if you skip the data-attributes:
+Neobrutalism.open(el);
+Neobrutalism.close(el);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ THEMING ============ -->
+        <section class="block" id="theming">
+            <h2>Theming</h2>
+            <p class="note">
+                Every value is a CSS custom property. Override in your own <code>:root</code> for a global
+                reskin, or on any scoped container for a local one — no recompile.
+            </p>
+
+            <div class="ex">
+                <div class="ex__preview">
+                    Drop this anywhere after the pack's stylesheet:
+                </div>
+                <div class="ex__code">
+                    <button class="copy-btn" type="button">Copy</button>
+<pre>:root {
+  --nb-border-color: #1a1a2e;
+  --nb-radius: 0;          /* hard-edge variant */
+  --nb-accent: #ff5470;
+  --nb-shadow-size: 6px;
+}</pre>
+                </div>
+            </div>
+
+            <table class="token-table">
+                <thead>
+                    <tr><th>Token</th><th>Default</th><th>What it controls</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="mono">--nb-border-width<br />--nb-border-width-sm</td><td class="mono">4px / 2px</td><td>Border thickness — large surfaces vs. chips &amp; small controls.</td></tr>
+                    <tr><td class="mono">--nb-border-color</td><td class="mono"><span class="swatch" style="background:#000"></span>#000000</td><td>The signature thick border.</td></tr>
+                    <tr><td class="mono">--nb-radius<br />--nb-radius-sm<br />--nb-radius-pill</td><td class="mono">12px / 6px / 9999px</td><td>Corner softening. Set to 0 for hard-edge neobrutalism.</td></tr>
+                    <tr><td class="mono">--nb-shadow-size<br />--nb-shadow-size-md<br />--nb-shadow-size-sm</td><td class="mono">8px / 4px / 3px</td><td>Hard offset shadow throw, by surface size.</td></tr>
+                    <tr><td class="mono">--nb-shadow-color</td><td class="mono"><span class="swatch" style="background:#000"></span>#000000</td><td>Shadow color.</td></tr>
+                    <tr><td class="mono">--nb-surface<br />--nb-surface-muted</td><td class="mono"><span class="swatch" style="background:#fff"></span>#fff / <span class="swatch" style="background:#f4f4f5"></span>#f4f4f5</td><td>Component backgrounds.</td></tr>
+                    <tr><td class="mono">--nb-ink<br />--nb-ink-muted</td><td class="mono"><span class="swatch" style="background:#000"></span>#000 / <span class="swatch" style="background:#6b7280"></span>#6b7280</td><td>Text colors.</td></tr>
+                    <tr><td class="mono">--nb-accent</td><td class="mono"><span class="swatch" style="background:#3073f0"></span>#3073f0</td><td>Primary action color.</td></tr>
+                    <tr><td class="mono">--nb-success<br />--nb-info<br />--nb-danger<br />--nb-warning</td><td class="mono"><span class="swatch" style="background:#34a853"></span><span class="swatch" style="background:#3073f0"></span><span class="swatch" style="background:#dc2626"></span><span class="swatch" style="background:#f8b133"></span></td><td>Semantic accent palette — used sparingly.</td></tr>
+                    <tr><td class="mono">--nb-font<br />--nb-font-weight</td><td class="mono">Figtree, 700</td><td>Type family &amp; base weight. Load Figtree to match exactly.</td></tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top:1rem">
+                Full list with comments lives in
+                <a href="https://github.com/tbollinger/neobrutalism-css/blob/main/src/tokens.css">src/tokens.css</a>.
+            </p>
+        </section>
+
+        <!-- ============ FOOTER ============ -->
+        <footer class="site">
+            <div class="row">
+                <span>MIT © tbollinger · neobrutalism-css v1.0.0</span>
+                <span class="row" style="gap:0.9rem">
+                    <a class="nb-chip nb-chip--interactive" href="https://github.com/tbollinger/neobrutalism-css">GitHub</a>
+                    <a class="nb-chip nb-chip--interactive" href="https://github.com/tbollinger/neobrutalism-css#readme">Docs</a>
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- The pack's behavior helper (copied from dist/ by build.js). -->
+    <script src="assets/neobrutalism.min.js"></script>
+
+    <!-- Showcase-only: copy-to-clipboard for each code block. -->
+    <script>
+        document.querySelectorAll('.copy-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var pre = btn.parentElement.querySelector('pre');
+                if (!pre) return;
+                navigator.clipboard.writeText(pre.innerText).then(function () {
+                    var original = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('is-copied');
+                    setTimeout(function () {
+                        btn.textContent = original;
+                        btn.classList.remove('is-copied');
+                    }, 1500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

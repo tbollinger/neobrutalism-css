@@ -1,0 +1,58 @@
+/*
+ * neobrutalism-css — chips & pills
+ *
+ *   <span class="nb-chip">Label</span>
+ *   <span class="nb-chip" style="--nb-pill-color: var(--nb-success)">Active</span>
+ *   <a href="#" class="nb-chip nb-chip--interactive">Clickable</a>
+ *   <span class="nb-pill">Rounded pill</span>
+ *
+ * Set --nb-pill-color on the element to fill it with an accent (text flips to
+ * white). Without it, chips are white with a black border.
+ */
+
+.nb-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    font-family: var(--nb-font);
+    font-weight: var(--nb-font-weight);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--nb-ink);
+    background: var(--nb-surface);
+    border: var(--nb-border-width-sm) solid var(--nb-border-color);
+    border-radius: var(--nb-radius-sm);
+    white-space: nowrap;
+}
+
+/* Filled chip when an accent color is provided. */
+.nb-chip[style*='--nb-pill-color'] {
+    background: var(--nb-pill-color);
+    color: #ffffff;
+}
+
+/* Rounded "pill" silhouette. */
+.nb-pill {
+    border-radius: var(--nb-radius-pill);
+}
+
+/* Interactive chips get the press effect (use on <a>/<button> chips). */
+.nb-chip--interactive {
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: var(--nb-shadow-size-sm) var(--nb-shadow-size-sm) 0
+        var(--nb-shadow-color);
+    transition: var(--nb-transition);
+}
+
+.nb-chip--interactive:hover {
+    transform: translate(1px, 1px);
+    box-shadow: calc(var(--nb-shadow-size-sm) - 1px)
+        calc(var(--nb-shadow-size-sm) - 1px) 0 var(--nb-shadow-color);
+}
+
+.nb-chip--interactive:active {
+    transform: translate(var(--nb-shadow-size-sm), var(--nb-shadow-size-sm));
+    box-shadow: none;
+}

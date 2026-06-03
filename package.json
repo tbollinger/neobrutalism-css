@@ -1,0 +1,41 @@
+{
+    "name": "neobrutalism-css",
+    "version": "1.0.0",
+    "description": "A softened-neobrutalism CSS pack — thick black borders, hard offset shadows, bold type, and a satisfying press effect. Framework-agnostic, retheme via custom properties.",
+    "type": "commonjs",
+    "main": "dist/neobrutalism.js",
+    "style": "dist/neobrutalism.css",
+    "exports": {
+        ".": "./dist/neobrutalism.js",
+        "./css": "./dist/neobrutalism.css",
+        "./css/min": "./dist/neobrutalism.min.css",
+        "./js": "./dist/neobrutalism.js",
+        "./js/min": "./dist/neobrutalism.min.js"
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "node build.js"
+    },
+    "keywords": [
+        "css",
+        "neobrutalism",
+        "neo-brutalism",
+        "brutalist",
+        "ui",
+        "design-system",
+        "framework-agnostic",
+        "vanilla-css"
+    ],
+    "author": "tbollinger",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tbollinger/neobrutalism-css.git"
+    },
+    "homepage": "https://github.com/tbollinger/neobrutalism-css#readme"
+}

@@ -1,0 +1,137 @@
+/*
+ * neobrutalism-css — form controls
+ *
+ *   <label class="nb-label">Email</label>
+ *   <input class="nb-input" type="email" placeholder="you@example.com" />
+ *   <p class="nb-error">That email is taken.</p>
+ *
+ *   <label class="nb-checkbox">
+ *     <input class="nb-checkbox__input" type="checkbox" />
+ *     <span class="nb-checkbox__box"></span>
+ *     <span>Remember me</span>
+ *   </label>
+ *
+ * .nb-input also styles <textarea> and <select>.
+ */
+
+.nb-label {
+    display: block;
+    font-family: var(--nb-font);
+    font-weight: var(--nb-font-weight-strong);
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    color: var(--nb-ink);
+}
+
+.nb-input {
+    display: block;
+    width: 100%;
+    padding: var(--nb-pad-y) 0.75rem;
+    font-family: var(--nb-font);
+    font-size: 0.95rem;
+    color: var(--nb-ink);
+    background: var(--nb-surface);
+    border: var(--nb-border-width) solid var(--nb-border-color);
+    border-radius: var(--nb-radius-sm);
+    transition: var(--nb-transition);
+}
+
+.nb-input::placeholder {
+    color: var(--nb-ink-muted);
+}
+
+/* On focus the field "lifts" — gains the hard shadow. */
+.nb-input:focus {
+    outline: none;
+    box-shadow: var(--nb-shadow-size-sm) var(--nb-shadow-size-sm) 0
+        var(--nb-shadow-color);
+    transform: translate(-1px, -1px);
+}
+
+.nb-input:disabled {
+    background: var(--nb-surface-muted);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Invalid state. */
+.nb-input[aria-invalid='true'],
+.nb-input.nb-input--error {
+    border-color: var(--nb-danger);
+}
+
+textarea.nb-input {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+select.nb-input {
+    cursor: pointer;
+}
+
+.nb-error {
+    font-family: var(--nb-font);
+    font-weight: var(--nb-font-weight);
+    font-size: 0.8rem;
+    color: var(--nb-danger);
+    margin-top: 0.375rem;
+}
+
+/* Checkbox — visually-hidden native input drives a styled box. */
+.nb-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--nb-font);
+    font-weight: var(--nb-font-weight);
+    cursor: pointer;
+    user-select: none;
+}
+
+.nb-checkbox__input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.nb-checkbox__box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--nb-surface);
+    border: var(--nb-border-width-sm) solid var(--nb-border-color);
+    border-radius: var(--nb-radius-sm);
+    transition: var(--nb-transition);
+}
+
+/* Drawn checkmark, revealed when checked. */
+.nb-checkbox__box::after {
+    content: '';
+    width: 0.35rem;
+    height: 0.65rem;
+    border: solid #ffffff;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg) scale(0);
+    transition: var(--nb-transition);
+    margin-bottom: 0.1rem;
+}
+
+.nb-checkbox__input:checked + .nb-checkbox__box {
+    background: var(--nb-accent);
+}
+
+.nb-checkbox__input:checked + .nb-checkbox__box::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.nb-checkbox__input:disabled + .nb-checkbox__box {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

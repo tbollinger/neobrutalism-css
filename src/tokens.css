@@ -1,0 +1,65 @@
+/*
+ * neobrutalism-css — design tokens
+ *
+ * Every value the pack uses is a custom property on :root. Override any of
+ * them in your own :root (or on a scoped container) to retheme the whole
+ * pack — no build step, no recompile.
+ *
+ *   :root { --nb-border-color: #1a1a2e; --nb-radius: 0; --nb-accent: #ff5470; }
+ */
+
+:root {
+    /* Borders — thick and black is the whole point. */
+    --nb-border-width: 4px;       /* cards, buttons, inputs, modals */
+    --nb-border-width-sm: 2px;    /* chips, pills, small controls */
+    --nb-border-color: #000000;
+
+    /* Corner radius — this pack is "softened" neobrutalism (rounded, not sharp).
+       Set these to 0 for the hard-edge variant. */
+    --nb-radius: 12px;
+    --nb-radius-sm: 6px;
+    --nb-radius-pill: 9999px;
+
+    /* Hard offset shadows — the signature. Offset sizes, not full shadows,
+       so hover/active states can recompute them from one number. */
+    --nb-shadow-size: 8px;        /* large surfaces (cards) */
+    --nb-shadow-size-md: 4px;     /* medium surfaces */
+    --nb-shadow-size-sm: 3px;     /* chips / small controls */
+    --nb-shadow-color: #000000;
+
+    /* Surfaces & ink */
+    --nb-surface: #ffffff;
+    --nb-surface-muted: #f4f4f5;
+    --nb-ink: #000000;
+    --nb-ink-muted: #6b7280;
+
+    /* Accents — a small, vivid, semantic palette. Used sparingly. */
+    --nb-accent: #3073f0;         /* primary action */
+    --nb-accent-ink: #ffffff;     /* text on accent */
+    --nb-success: #34a853;        /* green */
+    --nb-info: #3073f0;           /* blue */
+    --nb-danger: #dc2626;         /* red */
+    --nb-warning: #f8b133;        /* orange/amber (lightened) */
+
+    /* Typography — bold-forward. Load Figtree for the intended look;
+       falls back to a system stack otherwise. */
+    --nb-font: 'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+        Roboto, Helvetica, Arial, sans-serif;
+    --nb-font-weight: 700;
+    --nb-font-weight-strong: 800;
+
+    /* Motion */
+    --nb-transition: all 0.2s ease;
+
+    /* Spacing scale (used by components; override to rescale density) */
+    --nb-gap: 0.5rem;
+    --nb-pad-x: 1rem;
+    --nb-pad-y: 0.625rem;
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --nb-transition: none;
+    }
+}
